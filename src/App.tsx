@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Gallery from "./pages/Gallery";
 import Viewer from "./pages/Viewer";
 import NotFound from "./pages/NotFound";
+import NasaSearch from "./pages/NasaSearch";
 
 const queryClient = new QueryClient();
 
@@ -22,7 +23,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/viewer" element={<Viewer />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/nasa-search" element={<NasaSearch />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
