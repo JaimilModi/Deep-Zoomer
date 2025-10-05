@@ -39,7 +39,7 @@ export const Hero = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Button
             size="lg"
-            onClick={() => navigate("/gallery")}
+            onClick={() => navigate("/ai-search")}
             className="group bg-primary hover:bg-primary-glow transition-all duration-300 shadow-cosmic hover:shadow-accent text-lg px-8 py-6"
           >
             <Search className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
