@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer"; // <-- import Footer
+
 import Index from "./pages/Index";
 import Gallery from "./pages/Gallery";
 import Viewer from "./pages/Viewer";
@@ -40,6 +42,7 @@ const App = () => (
           <Route path="/high-res" element={<HighResViewer />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
