@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Image, Sparkles, Search } from "lucide-react";
+import { Home, Image, Sparkles, Search, Brain, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const Navigation = () => {
@@ -46,7 +46,7 @@ export const Navigation = () => {
               <span className="hidden sm:inline">Gallery</span>
             </Link>
 
-            {/* NASA Search Button (Active Matching Home/Gallery) */}
+            {/* NASA Search Button */}
             <Link
               to="/nasa-search"
               className={cn(
@@ -58,6 +58,20 @@ export const Navigation = () => {
             >
               <Search className="w-4 h-4" />
               <span className="hidden sm:inline">NASA Search</span>
+            </Link>
+
+            {/* AI-Enhanced Search Button */}
+            <Link
+              to="/ai-search"
+              className={cn(
+                "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300",
+                isActive("/ai-search")
+                  ? "bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-400 shadow-[0_0_20px_hsl(270_100%_70%/0.3)]"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+              )}
+            >
+              <Brain className="w-4 h-4" />
+              <span className="hidden sm:inline">AI Search</span>
             </Link>
           </div>
         </div>

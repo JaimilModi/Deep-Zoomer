@@ -1,5 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { Target, Eye } from "lucide-react";
 
 export const ImageGallery = () => {
   const navigate = useNavigate();
@@ -41,7 +43,19 @@ export const ImageGallery = () => {
   ];
 
   const handleImageClick = (image) => {
-    navigate("/viewer", {
+    navigate("/ai-viewer", {
+      state: {
+        imageUrl: image.href,
+        thumbnailUrl: image.href,
+        title: image.title,
+        description: image.description,
+        nasaId: image.nasa_id,
+      },
+    });
+  };
+
+  const handlePixelPerfectClick = (image) => {
+    navigate("/pixel-viewer", {
       state: {
         imageUrl: image.highResUrl,
         thumbnailUrl: image.href,
@@ -81,12 +95,37 @@ export const ImageGallery = () => {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h3 className="font-semibold text-sm line-clamp-2">{image.title}</h3>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        {new Date(image.date_created).toLocaleDateString()}
-                      </p>
-                    </div>
+                        <div className="absolute bottom-0 left-0 right-0 p-4">
+                          <h3 className="font-semibold text-sm line-clamp-2">{image.title}</h3>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            {new Date(image.date_created).toLocaleDateString()}
+                          </p>
+                          <div className="flex gap-2 mt-2">
+                            <Button
+                              size="sm"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleImageClick(image);
+                              }}
+                              className="flex-1"
+                            >
+                              <Eye className="w-3 h-3 mr-1" />
+                              View
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handlePixelPerfectClick(image);
+                              }}
+                              className="flex-1"
+                            >
+                              <Target className="w-3 h-3 mr-1" />
+                              Pixel Perfect
+                            </Button>
+                          </div>
+                        </div>
                   </div>
                 </div>
               </CardContent>

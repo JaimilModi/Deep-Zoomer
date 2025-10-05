@@ -14,22 +14,68 @@ const Viewer = () => {
     const container = viewerRef.current;
     container.style.position = "relative"; // enable overlay positioning
 
+    // Configure tile source for DZI files
+    const tileSource = {
+      type: "image",
+      url: imageUrl,
+      // DZI-specific configuration
+      tileSource: {
+        type: "dzi",
+        url: imageUrl,
+        tileSize: 256,
+        overlap: 1,
+        format: "jpg"
+      }
+    };
+
     osdRef.current = OpenSeadragon({
       element: container,
       prefixUrl:
         "https://cdn.jsdelivr.net/npm/openseadragon@4.1/build/openseadragon/images/",
-      tileSources: imageUrl,
+      tileSources: imageUrl, // Use DZI file directly
       showNavigator: true,
       animationTime: 0.5,
       blendTime: 0.1,
       constrainDuringPan: true,
-      maxZoomPixelRatio: 1,
+      // Pixel-perfect zooming configuration
+      maxZoomPixelRatio: 2, // Allow 2x pixel ratio for crisp rendering
+      minZoomImageRatio: 0.1, // Allow zooming out to 10% of original size
+      maxZoomLevel: 20, // Maximum zoom level
+      minZoomLevel: 0, // Minimum zoom level
+      // Tile configuration for better quality
+      tileSize: 256, // Match DZI tile size
+      imageLoaderLimit: 5, // Limit concurrent tile loads
+      timeout: 30000, // 30 second timeout for tile loading
+      // Smooth zooming and panning
+      springStiffness: 5.0,
+      animationTime: 1.2,
+      // Gesture settings for better control
       gestureSettingsMouse: {
         scrollToZoom: true,
         clickToZoom: true,
         dblClickToZoom: true,
         flickEnabled: true,
+        pinchToZoom: true,
       },
+      gestureSettingsTouch: {
+        scrollToZoom: true,
+        clickToZoom: true,
+        dblClickToZoom: true,
+        flickEnabled: true,
+        pinchToZoom: true,
+      },
+      // Image quality settings
+      imageLoaderLimit: 5,
+      loadTilesWithAjax: true,
+      ajaxWithCredentials: false,
+      // Smooth transitions
+      springStiffness: 5.0,
+      animationTime: 1.2,
+      blendTime: 0.1,
+      // Retry configuration for reliability
+      tileRetryMax: 3,
+      tileRetryDelay: 1000,
+      tileLoadTimeout: 10000,
     });
 
     const viewer = osdRef.current;
