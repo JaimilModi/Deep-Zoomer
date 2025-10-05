@@ -12,7 +12,7 @@ const Viewer = () => {
     if (!viewerRef.current || !imageUrl) return;
 
     const container = viewerRef.current;
-    container.style.position = "relative"; // make overlay positioning work
+    container.style.position = "relative"; // enable overlay positioning
 
     osdRef.current = OpenSeadragon({
       element: container,
@@ -34,7 +34,7 @@ const Viewer = () => {
 
     const viewer = osdRef.current;
 
-    // FAKE REFRESH on zoom
+    // Flash overlay on zoom
     const handleZoom = () => {
       const overlay = document.createElement("div");
       overlay.style.position = "absolute";
@@ -42,17 +42,16 @@ const Viewer = () => {
       overlay.style.left = "0px";
       overlay.style.width = "100%";
       overlay.style.height = "100%";
-      overlay.style.background = "rgba(255,255,255,0.1)"; // light flash
-      overlay.style.backdropFilter = "blur(1px)"; // tiny blur
+      overlay.style.background = "rgba(255,255,255,0.1)";
+      overlay.style.backdropFilter = "blur(1px)";
       overlay.style.transition = "opacity 0.1s";
       overlay.style.opacity = "0.7";
-      overlay.style.pointerEvents = "none"; // allow interaction
+      overlay.style.pointerEvents = "none";
       container.appendChild(overlay);
 
-      // Fade out fast
       requestAnimationFrame(() => {
         overlay.style.opacity = "0";
-        setTimeout(() => container.removeChild(overlay), 100); // 100ms visible
+        setTimeout(() => container.removeChild(overlay), 100);
       });
     };
 

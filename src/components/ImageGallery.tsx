@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 export const ImageGallery = () => {
   const navigate = useNavigate();
 
-  // Array of all images
   const images = [
     {
       href: "/nasa-image.jpg",
@@ -29,6 +28,15 @@ export const ImageGallery = () => {
       date_created: new Date().toISOString(),
       nasa_id: "earth-night-2025",
       highResUrl: "/earth_night_tiles.dzi",
+    },
+    // ✅ New Earth-2 image
+    {
+      href: "/earth-2.png",
+      title: "Earth 2 Zoom",
+      description: "Tile-based zoomable image of Earth (new)",
+      date_created: new Date().toISOString(),
+      nasa_id: "earth-2-2025",
+      highResUrl: "/earth-2.dzi",
     },
   ];
 
