@@ -88,14 +88,17 @@ const AIEnhancedViewer = () => {
     return null;
   }
 
+  // Selected image URL and type detection
+  const imageUrl = state?.imageUrl || "/earth-image.jpg";
+  const isDzi = typeof imageUrl === "string" && imageUrl.toLowerCase().endsWith(".dzi");
+
   useEffect(() => {
     if (!viewerRef.current) return;
+    if (!isDzi) return; // For non-DZI images, we render a simple <img> and skip OSD
 
-    const imageUrl = state?.imageUrl || "/earth_tiles.dzi";
     const container = viewerRef.current;
     container.style.position = "relative";
 
-    const isDzi = typeof imageUrl === "string" && imageUrl.toLowerCase().endsWith(".dzi");
     let isSameOrigin = true;
     try {
       if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
@@ -108,14 +111,7 @@ const AIEnhancedViewer = () => {
       isSameOrigin = true;
     }
 
-    const tileSource = isDzi
-      ? imageUrl // Pass plain string URL for DZI to avoid [object Object] open errors
-      : {
-          type: "image",
-          url: imageUrl,
-          // Building a pyramid on cross-origin images can taint canvas if CORS headers are absent
-          buildPyramid: isSameOrigin
-        };
+    const tileSource = imageUrl; // DZI manifest URL as plain string
 
     osdRef.current = OpenSeadragon({
       element: container,
@@ -152,7 +148,8 @@ const AIEnhancedViewer = () => {
         pinchToZoom: true,
       },
       // Cross-origin handling
-      loadTilesWithAjax: isSameOrigin,
+      // Use AJAX only for same-origin DZI manifests; for plain images, avoid AJAX to prevent tile failures
+      loadTilesWithAjax: isDzi ? isSameOrigin : false,
       ajaxWithCredentials: false,
       crossOriginPolicy: isSameOrigin ? undefined : "Anonymous",
       // Avoid canvas tainting when image is cross-origin without proper CORS
@@ -518,43 +515,49 @@ const AIEnhancedViewer = () => {
           </div>
         )}
 
-        {/* Zoom Controls */}
-        <div className="absolute bottom-4 right-4 z-30 flex flex-col gap-2">
-          <Button
-            size="icon"
-            onClick={() => osdRef.current?.viewer?.zoomIn()}
-            className="bg-primary/20 backdrop-blur border border-primary/30"
-          >
-            <ZoomIn className="w-5 h-5" />
-          </Button>
-          <Button
-            size="icon"
-            onClick={() => osdRef.current?.viewer?.zoomOut()}
-            className="bg-accent/20 backdrop-blur border border-accent/30"
-          >
-            <ZoomOut className="w-5 h-5" />
-          </Button>
-          <Button
-            size="icon"
-            onClick={() => osdRef.current?.viewer?.viewport?.goHome()}
-            className="bg-secondary backdrop-blur border border-border"
-          >
-            <RotateCcw className="w-5 h-5" />
-          </Button>
-          <Button
-            size="icon"
-            onClick={toggleFullscreen}
-            className="bg-secondary backdrop-blur border border-border"
-          >
-            <Maximize2 className="w-5 h-5" />
-          </Button>
-        </div>
+        {/* Zoom Controls (only when OSD is active for DZI) */}
+        {isDzi && (
+          <div className="absolute bottom-4 right-4 z-30 flex flex-col gap-2">
+            <Button
+              size="icon"
+              onClick={() => osdRef.current?.viewer?.zoomIn()}
+              className="bg-primary/20 backdrop-blur border border-primary/30"
+            >
+              <ZoomIn className="w-5 h-5" />
+            </Button>
+            <Button
+              size="icon"
+              onClick={() => osdRef.current?.viewer?.zoomOut()}
+              className="bg-accent/20 backdrop-blur border border-accent/30"
+            >
+              <ZoomOut className="w-5 h-5" />
+            </Button>
+            <Button
+              size="icon"
+              onClick={() => osdRef.current?.viewer?.viewport?.goHome()}
+              className="bg-secondary backdrop-blur border border-border"
+            >
+              <RotateCcw className="w-5 h-5" />
+            </Button>
+            <Button
+              size="icon"
+              onClick={toggleFullscreen}
+              className="bg-secondary backdrop-blur border border-border"
+            >
+              <Maximize2 className="w-5 h-5" />
+            </Button>
+          </div>
+        )}
 
         {/* Feature Overlay */}
         {renderFeatureOverlay()}
 
         {/* Viewer */}
-        <div ref={viewerRef} className="w-full h-full" />
+        {isDzi ? (
+          <div ref={viewerRef} className="w-full h-full" />
+        ) : (
+          <img src={imageUrl} alt={state.title} className="absolute inset-0 w-full h-full object-contain" />
+        )}
       </div>
 
       {/* Instructions */}
