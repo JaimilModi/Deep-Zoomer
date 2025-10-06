@@ -120,7 +120,6 @@ const PixelPerfectViewer = () => {
       },
       
       // Image quality settings
-      imageLoaderLimit: 3,
       loadTilesWithAjax: true,
       ajaxWithCredentials: false,
       

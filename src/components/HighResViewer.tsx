@@ -141,7 +141,6 @@ const HighResViewer = () => {
       },
       
       // Image quality settings
-      imageLoaderLimit: 4,
       loadTilesWithAjax: true,
       ajaxWithCredentials: false,
       
