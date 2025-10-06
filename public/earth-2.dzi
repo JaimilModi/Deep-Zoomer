@@ -2,7 +2,7 @@
 <Image xmlns="http://schemas.microsoft.com/deepzoom/2008"
   Format="jpeg"
   Overlap="1"
-  TileSize="254"
+  TileSize="256"
   >
   <Size 
     Height="2164"
