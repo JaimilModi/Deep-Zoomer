@@ -150,7 +150,7 @@ const AIEnhancedViewer = () => {
     overlay.style.fontSize = "0.9rem";
     overlay.style.fontWeight = "bold";
     overlay.style.zIndex = "999";
-    overlay.innerText = "🔄 Enhancing view...";
+    overlay.innerText = "Enhancing view...";
 
     if (viewerRef.current) viewerRef.current.appendChild(overlay);
 

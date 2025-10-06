@@ -58,7 +58,7 @@ const AIEnhancedNasaSearch = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   
-  const [searchTerm, setSearchTerm] = useState("mars");
+  const [searchTerm, setSearchTerm] = useState("Earth");
   const [images, setImages] = useState<NasaItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

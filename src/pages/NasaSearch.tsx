@@ -18,7 +18,7 @@ interface NasaApiResponse {
 }
 
 const NasaSearch = () => {
-  const [searchTerm, setSearchTerm] = useState("mars"); // default planet
+  const [searchTerm, setSearchTerm] = useState("Earth"); // default planet
   const [images, setImages] = useState<NasaItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
