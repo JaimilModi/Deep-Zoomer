@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Image xmlns="http://schemas.microsoft.com/deepzoom/2008"
-  Format="jpg"
-  Overlap="0" #change 0 to 1
-  TileSize="256"
-  >
-  <Size 
-    Height="3718"
-    Width="3718"
-  />
+       Format="jpg"
+       Overlap="0"
+       TileSize="256">
+  <Size Width="3718" Height="3718"/>
 </Image>
